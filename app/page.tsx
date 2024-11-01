@@ -1,5 +1,5 @@
 import Image from "next/image";
 
 export default function Home() {
-  return <div>Task Manager</div>;
+  return <div className="mx-10">Task Manager</div>;
 }

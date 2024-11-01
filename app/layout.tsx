@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import TSidebar from "@/components/TSidebar";
+import Navbar from "@/components/Navarbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,7 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen h-screen overflow-hidden flex flex-col">
+        <SidebarProvider>
+          <TSidebar />
+          <div className="md:block w-full">
+            <Navbar />
+            <div className="p-8 overflow-scroll w-full">
+              <SidebarTrigger />
+              {children}
+            </div>
+          </div>
+        </SidebarProvider>
+      </body>
     </html>
   );
 }
