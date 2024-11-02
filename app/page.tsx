@@ -1,9 +1,14 @@
 import { AddModal } from "@/components/AddModal";
-import TaskItem from "@/components/TaskItem";
+
+import TaskList from "@/components/TaskList";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  const res = await fetch("http://localhost:3000/api/task");
+
+  const data = await res.json();
+  console.log("home", data);
   return (
     <div className="mx-10 h-screen bg-gray-400">
       <div className="flex justify-between">
@@ -11,8 +16,8 @@ export default function Home() {
         {/* <Button className="bg-blue-500 hover:bg-blue-600">Create Task</Button> */}
         <AddModal />
       </div>
-      <div className="grid grid-cols-3">
-        <TaskItem />
+      <div className="">
+        <TaskList data={data} />
       </div>
     </div>
   );

@@ -4,7 +4,20 @@ import { FilePenLine } from "lucide-react";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { EditModal } from "./EditModal";
 
-const TaskItem = () => {
+interface Task {
+  id: string;
+  task: string;
+  user: string;
+  dueDate: string;
+  priority: any;
+  status: any;
+}
+
+interface Tasks {
+  task: Task;
+}
+
+const TaskItem = ({ task }: Tasks) => {
   let priority = "Low";
   return (
     <Card className=" min-h-40 rounded-sm shadow-sm border hover:bg-slate-50">
@@ -12,14 +25,14 @@ const TaskItem = () => {
         <div className="flex justify-between">
           <p
             className={`${
-              priority === "High"
+              task.priority === "high"
                 ? "text-red-500"
-                : priority === "Low"
+                : task.priority === "low"
                 ? "text-yellow-500"
                 : "text-green-500"
             } mb-2`}
           >
-            {priority} Priority
+            {task.priority} Priority
           </p>
           <Dialog>
             <DialogTrigger asChild>
@@ -28,12 +41,12 @@ const TaskItem = () => {
             <EditModal />
           </Dialog>
         </div>
-        <h1 className="mb-2">Fix the hardware issue</h1>
-        <p className="mb-2">Techncian : Shubham</p>
+        <h1 className="mb-2">{task.task}</h1>
+        <p className="mb-2">Techncian : {task.user}</p>
         <div className="flex items-center justify-between">
-          <p className="">Due date : 10/10/2024</p>
+          <p className="">Due date : {task.dueDate}</p>
           <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded ">
-            Inprogress
+            {task.status}
           </span>
         </div>
       </CardContent>

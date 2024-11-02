@@ -12,22 +12,57 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { setPriority } from "os";
-import { useState } from "react";
+import { socket } from "@/socket";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function AddModal() {
   const [task, setTask] = useState("");
   const [user, setUser] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   console.log(task, user, dueDate, priority);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const newTask = {
+        task,
+        user,
+        dueDate,
+        priority,
+      };
+      const response = await fetch("/api/task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        socket.emit("taskCreated", data);
+        setIsOpen(false);
+        router.push("/");
+      }
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-500 hover:bg-blue-600">Create Task</Button>
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="bg-blue-500 hover:bg-blue-600"
+        >
+          Create Task
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[495px]">
         <DialogHeader>
