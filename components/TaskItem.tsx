@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { FilePenLine } from "lucide-react";
 import { Dialog, DialogTrigger } from "./ui/dialog";
@@ -18,27 +19,31 @@ interface Tasks {
 }
 
 const TaskItem = ({ task }: Tasks) => {
-  let priority = "Low";
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Card className=" min-h-40 rounded-sm shadow-sm border hover:bg-slate-50">
       <CardContent className="flex flex-col p-4 ">
         <div className="flex justify-between">
           <p
             className={`${
-              task.priority === "high"
+              task.priority === "High"
                 ? "text-red-500"
-                : task.priority === "low"
+                : task.priority === "Low"
                 ? "text-yellow-500"
                 : "text-green-500"
             } mb-2`}
           >
             {task.priority} Priority
           </p>
-          <Dialog>
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-              <FilePenLine />
+              <FilePenLine onClick={() => setIsOpen(true)} />
             </DialogTrigger>
-            <EditModal />
+            <EditModal
+              setIsOpen={(args: any) => setIsOpen(args)}
+              id={task.id}
+            />
           </Dialog>
         </div>
         <h1 className="mb-2">{task.task}</h1>

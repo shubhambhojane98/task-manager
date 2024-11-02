@@ -24,6 +24,11 @@ app.prepare().then(() => {
       io.emit("taskCreated", task);
     });
 
+    socket.on("taskUpdated", (updatedTask) => {
+      console.log("Task updated", updatedTask);
+      io.emit("taskUpdated", updatedTask);
+    });
+
     socket.on("disconnect", () => {
       console.log("Client disconnected");
     });
