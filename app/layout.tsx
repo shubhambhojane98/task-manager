@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen h-screen overflow-hidden flex flex-col">
+      <body className="min-h-screen h-screen  flex flex-col">
         <Toaster />
         <div className="md:block w-full">
           <Navbar />

@@ -41,3 +41,20 @@ export async function GET(request, { params }) {
 
   return NextResponse.json(task, { status: 200 });
 }
+
+export async function DELETE(req, { params }) {
+  const { id } = await params;
+  console.log("SID", id);
+  const taskIndex = tasks.findIndex((t) => t.id === id);
+
+  if (taskIndex === -1) {
+    return NextResponse.json({ error: "Task not found" }, { status: 404 });
+  }
+
+  tasks.splice(taskIndex, 1);
+
+  return NextResponse.json(
+    { message: "Task deleted successfully" },
+    { status: 200 }
+  );
+}

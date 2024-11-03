@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Card, CardContent } from "./ui/card";
-import { FilePenLine } from "lucide-react";
+import { FilePenLine, Trash } from "lucide-react";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { EditModal } from "./EditModal";
 
@@ -16,9 +16,10 @@ interface Task {
 
 interface Tasks {
   task: Task;
+  handleDelete: (id: string) => Promise<void>;
 }
 
-const TaskItem = ({ task }: Tasks) => {
+const TaskItem = ({ task, handleDelete }: Tasks) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -36,20 +37,29 @@ const TaskItem = ({ task }: Tasks) => {
           >
             {task.priority} Priority
           </p>
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-              <FilePenLine onClick={() => setIsOpen(true)} />
-            </DialogTrigger>
-            <EditModal
-              setIsOpen={(args: any) => setIsOpen(args)}
-              id={task.id}
+          <div className="flex gap-3">
+            <Trash
+              onClick={() => handleDelete(task.id)}
+              className="hover:text-red-500"
             />
-          </Dialog>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger asChild>
+                <FilePenLine
+                  className="hover:text-blue-500"
+                  onClick={() => setIsOpen(true)}
+                />
+              </DialogTrigger>
+              <EditModal
+                setIsOpen={(args: any) => setIsOpen(args)}
+                id={task.id}
+              />
+            </Dialog>
+          </div>
         </div>
-        <h1 className="mb-2">{task.task}</h1>
-        <p className="mb-2">Techncian : {task.user}</p>
+        <h1 className="mb-2">Task : {task.task}</h1>
+        <p className="mb-2">User : {task.user}</p>
         <div className="flex items-center justify-between">
-          <p className="">Due date : {task.dueDate}</p>
+          <p className="text-sm md:text-base">Due date : {task.dueDate}</p>
           <span
             className={`${
               task.status === "Pending"
