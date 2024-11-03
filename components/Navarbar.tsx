@@ -31,7 +31,7 @@ const Navbar = () => {
       setMessage(`Task '${updatedTask.task}' has been updated.`);
       toast({
         title: "Task Updated",
-        description: `Task '${updatedTask.task}' has been updated and has been assigned to ${updatedTask.user}`,
+        description: `Task '${updatedTask.task}' has been updated`,
       });
       resetMessage();
     });

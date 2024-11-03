@@ -50,7 +50,15 @@ const TaskItem = ({ task }: Tasks) => {
         <p className="mb-2">Techncian : {task.user}</p>
         <div className="flex items-center justify-between">
           <p className="">Due date : {task.dueDate}</p>
-          <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded ">
+          <span
+            className={`${
+              task.status === "Pending"
+                ? "bg-red-200 text-red-800"
+                : task.status === "Inprogress"
+                ? "bg-yellow-100 text-yellow-500"
+                : "bg-green-100 text-green-600"
+            }text-xs font-medium me-2 px-2.5 py-0.5 rounded `}
+          >
             {task.status}
           </span>
         </div>

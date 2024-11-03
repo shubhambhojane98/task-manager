@@ -18,6 +18,11 @@ interface TaskList {
 
 const TaskList = ({ data }: TaskList) => {
   const [tasks, setTasks] = useState(data || []);
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  const filteredTasks = tasks.filter((task) =>
+    statusFilter === "All" ? true : task.status === statusFilter
+  );
 
   useEffect(() => {
     const handleTaskCreated = (newTask: any) => {
@@ -49,15 +54,28 @@ const TaskList = ({ data }: TaskList) => {
   }, [data]);
 
   return (
-    <div className="grid grid-cols-1 gap-2 m-2 md:grid-cols-3 overflow-scroll">
-      {tasks.map((task) => {
-        console.log(`Task ID: ${task.id}`);
-        return (
-          <div key={task.id}>
-            <TaskItem task={task} />
-          </div>
-        );
-      })}
+    <div>
+      <select
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/12 p-2.5"
+        id="statusFilter"
+        value={statusFilter}
+        onChange={(e) => setStatusFilter(e.target.value)}
+      >
+        <option value="All">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Inprogress">Inprogress</option>
+        <option value="Completed">Completed</option>
+      </select>
+      <div className="grid grid-cols-1 gap-2 mt-4 md:grid-cols-3 overflow-scroll">
+        {filteredTasks.map((task) => {
+          console.log(`Task ID: ${task.id}`);
+          return (
+            <div key={task.id}>
+              <TaskItem task={task} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
