@@ -4,6 +4,7 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import TSidebar from "@/components/TSidebar";
 import Navbar from "@/components/Navarbar";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen h-screen overflow-hidden flex flex-col">
         <SidebarProvider>
+          <Toaster />
           <TSidebar />
           <div className="md:block w-full">
             <Navbar />
